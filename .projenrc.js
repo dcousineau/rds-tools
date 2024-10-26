@@ -12,10 +12,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   homepage: 'https://github.com/dcousineau/rds-tools',
   repositoryUrl: 'https://github.com/dcousineau/rds-tools.git',
   jsiiVersion: '~5.5.0',
-  // devDeps: [
-  //   'eslint',
-  //   'esbuild',
-  // ],
+  devDeps: [
+    'esbuild',
+  ],
   license: 'MIT',
   depsUpgrade: false,
   npmAccess: 'public',
@@ -43,7 +42,6 @@ project.npmignore.exclude('cdk.context.json', '.cdk.staging/', '.idea/', 'cdk.ou
 
 project.npmignore.include('./lib/handlers/*');
 
-project.postCompileTask.exec('cp -R src/layer/ lib/layer/ && cp src/handlers/package* lib/handlers/');
-
+project.preCompileTask.exec('cp -R src/handlers/ lib/handlers/ && cp -R src/layer/ lib/layer/');
 
 project.synth();
