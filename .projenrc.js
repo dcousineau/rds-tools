@@ -34,16 +34,16 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
 // project.addFields({
 //   awscdkio: {
-//     twitter: 'mbonig',
+//     twitter: 'mattbonig',
 //   },
 // });
 
-// project.gitignore.exclude('cdk.context.json', '.cdk.staging/', '.idea/', 'cdk.out/', 'npm-cache/');
-// project.npmignore.exclude('cdk.context.json', '.cdk.staging/', '.idea/', 'cdk.out/');
+project.gitignore.exclude('cdk.context.json', '.cdk.staging/', '.idea/', 'cdk.out/', 'npm-cache/', '.DS_Store');
+project.npmignore.exclude('cdk.context.json', '.cdk.staging/', '.idea/', 'cdk.out/');
 
-// project.npmignore.include('./lib/handlers/*');
+project.npmignore.include('./lib/handlers/*');
 
-// project.compileTask.exec('cp src/handlers/*.ts lib/handlers/ && cp src/handlers/cfn-response.js lib/handlers/ && cp -R src/layer lib/layer && cp src/handlers/package* lib/handlers/');
+project.postCompileTask.exec('cp -R src/layer/ lib/layer/ && cp src/handlers/package* lib/handlers/');
 
 
 project.synth();

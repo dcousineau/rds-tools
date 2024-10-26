@@ -48,4 +48,10 @@ junit.xml
 .jsii
 tsconfig.json
 !/API.md
+cdk.context.json
+.cdk.staging/
+.idea/
+cdk.out/
+npm-cache/
+.DS_Store
 !/.projenrc.js

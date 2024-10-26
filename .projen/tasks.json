@@ -188,6 +188,9 @@
       "steps": [
         {
           "spawn": "docgen"
+        },
+        {
+          "exec": "cp -R src/layer/ lib/layer/ && cp src/handlers/package* lib/handlers/"
         }
       ]
     },
