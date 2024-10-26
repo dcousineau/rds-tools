@@ -49,7 +49,7 @@ describe('DatabaseUser', () => {
     Role: role,
     Environment: environment,
     Handler: 'index.handler',
-    Runtime: 'nodejs16.x',
+    Runtime: 'nodejs18.x', // As of 2024-10-26 NODEJS_LATEST points to 18.x
     Timeout: 15,
     VpcConfig: vpcConfig,
   };
