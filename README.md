@@ -1,5 +1,8 @@
 # RDS Tools
 
+> [!Warning]
+> THIS IS A TEMPORARY PUBLISH OF A FORK. UPSTREAM PR CAN BE FOUND AT: https://github.com/mbonig/rds-tools/pull/194
+
 <!--BEGIN STABILITY BANNER-->
 
 ---
