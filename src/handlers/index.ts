@@ -2,7 +2,7 @@
 import { IProvider } from './provider';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const AWS = require('aws-sdk');
+const { SecretsManagerClient, GetSecretValueCommand } = require('@aws-sdk/client-secrets-manager');
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const response = require('./cfn-response');
 
@@ -47,13 +47,15 @@ export const getProvider = (props: {
 
 export const innerHandler = async ({ script, databaseName }: { script: string; databaseName: string }) => {
 
-  const sm = new AWS.SecretsManager({});
+  const smClient = new SecretsManagerClient();
   const {
     SECRET_ARN: powerUserSecretArn,
   } = process.env;
 
   console.log('Getting secret...');
-  const { SecretString: powerUserSecretString } = await sm.getSecretValue({ SecretId: powerUserSecretArn }).promise();
+  const { SecretString: powerUserSecretString } = await smClient.send(
+    new GetSecretValueCommand({ SecretId: powerUserSecretArn }),
+  );
 
   if (!powerUserSecretString) {
     throw new Error('Could not determine the username and password. Make sure the provided Secret has a value and is an object with {username, password}');

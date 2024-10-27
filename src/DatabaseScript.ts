@@ -174,7 +174,7 @@ export class DatabaseScript extends Construct implements IConnectable {
         SECRET_ARN: secret.secretArn,
       },
       bundling: {
-        externalModules: ['aws-sdk', 'mssql', 'promise-mysql', 'pg'],
+        externalModules: ['@aws-sdk/client-secrets-manager', 'mssql', 'promise-mysql', 'pg'],
       },
       timeout: Duration.seconds(15), // TODO: should be overridable
       logRetention: aws_logs.RetentionDays.ONE_DAY,
