@@ -85,15 +85,21 @@ export class DatabaseScript extends Construct implements IConnectable {
     this.providerLayer = new aws_lambda.LayerVersion(this, `${id}-deps-layer`, {
       code: aws_lambda.Code.fromAsset(assetPath, {
         bundling: {
-          image: aws_lambda.Runtime.NODEJS_LATEST.bundlingImage,
+          image: aws_lambda.Runtime.NODEJS_18_X.bundlingImage,
+          user: 'root',
           command: [
-            'bash', '-c',
-            'echo npm i && cp -r /asset-input/* /asset-output',
+            'sh', '-c',
+            [
+              'cd $(mktemp -d)',
+              'cp /asset-input/* .',
+              'npm ci',
+              'cp -r ./node_modules ./dist/* /asset-output/',
+            ].join(' && '),
           ],
           environment: {
-            npm_config_cache: 'npm-cache',
+            npm_config_cache: '/tmp/npm_cache',
+            npm_config_update_notifier: 'false',
           },
-          user: 'root',
           workingDirectory: '/asset-input/nodejs',
           local: {
             tryBundle(outputDir: string): boolean {
@@ -168,7 +174,7 @@ export class DatabaseScript extends Construct implements IConnectable {
       entry: path.join(__dirname, 'handlers', 'index.ts'),
       depsLockFilePath: path.join(__dirname, 'handlers', 'package-lock.json'),
       handler: handler ?? 'handler',
-      runtime: aws_lambda.Runtime.NODEJS_LATEST,
+      runtime: aws_lambda.Runtime.NODEJS_18_X,
       vpc: vpc,
       environment: {
         SECRET_ARN: secret.secretArn,
